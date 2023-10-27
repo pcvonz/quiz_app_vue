@@ -16,46 +16,29 @@
 </script>
 
 <template>
-	<h1> {{ question }} </h1>
-	<div v-for="answer in possibleAnswers">
-		<div @click="emit('answer', answer)"> 
-			{{ answer }} 
+	<div class="question">
+		<h1 class="question-title"> {{ question }} 
+			<div class="correct-indicator" v-if="userAnswer">
+				{{ userAnswer !== answer ? "❌" : "✅︎" }}
+			</div>
+		</h1>
+		<div v-for="answer in possibleAnswers">
+			<button @click="emit('answer', answer)"> 
+				{{ answer }} 
+			</button>
 		</div>
-	</div>
-	<div v-if="userAnswer && userAnswer !== answer">
-		That's the wrong answer
-	</div>
-	<div v-else-if="userAnswer && userAnswer === answer">
-		That's the correct answer!
 	</div>
 </template>
 
 <style scoped>
-header {
-  line-height: 1.5;
+.question-title {
+	position: relative;
 }
-
-.logo {
-  display: block;
-  margin: 0 auto 2rem;
-}
-
-@media (min-width: 1024px) {
-  header {
-    display: flex;
-    place-items: center;
-    padding-right: calc(var(--section-gap) / 2);
-  }
-
-  .logo {
-    margin: 0 2rem 0 0;
-  }
-
-  header .wrapper {
-    display: flex;
-    place-items: flex-start;
-    flex-wrap: wrap;
-  }
+.correct-indicator {
+	width: 0;
+	position: absolute;
+	right: 0;
+	top: 0;
 }
 </style>
 

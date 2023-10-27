@@ -4,31 +4,30 @@ import QuestionComponent from './components/QuestionComponent.vue'
 import TimeRemaining from './components/TimeRemaining.vue';
 import { computed } from '@vue/reactivity';
 
-const questions = ref<Record<number, {
+const questions = ref<Array<{
 	userAnswer: string | undefined,
 	correctAnswer: string,
 	question: string,
 	possibleAnswers: string[]
-}>>({ 
-	0: {
+}>>([ 
+	 {
 		possibleAnswers: ["a", "b", "c"],
 		correctAnswer: "c",
 		question: "Which one is c?",
 		userAnswer: undefined
 	},
-	1: {
+	 {
 		possibleAnswers: ["a", "b", "c"],
 		correctAnswer: "c",
 		question: "Which one is c?",
 		userAnswer: undefined
 	},
-	2: {
+	 {
 		possibleAnswers: ["a", "b", "c"],
 		correctAnswer: "c",
 		question: "Which one is c?",
 		userAnswer: undefined
-	}
-});
+	} ]);
 
 const answerQuestion = (questionNumber: number, answer: string) => {
 	questions.value[questionNumber].userAnswer = answer;
@@ -62,11 +61,17 @@ const onLimitReached = () => {
 </script>
 
 <template>
-	<div v-if="isQuizFinished">
-		Your score is {{ score }} 
-	</div>
-	
-	<template v-else v-for="( question, index ) in questions">
+	<div class="questions">
+		<TimeRemaining 
+			 v-if="!isQuizFinished"
+					@limit-reached="onLimitReached"
+					:limit="30"
+					/>
+		<div v-if="isQuizFinished">
+			Your score is {{ score }} out of {{ questions.length }}
+		</div>
+
+		<template v-else v-for="( question, index ) in questions">
 			<QuestionComponent
 					@answer="(answer: string) => answerQuestion(index, answer)"
 					:userAnswer="questions[index].userAnswer"
@@ -74,42 +79,16 @@ const onLimitReached = () => {
 					:question="question.question"
 					:possibleAnswers='question.possibleAnswers'
 					:answer="question.correctAnswer"
-			/>
-	</template>
-	<TimeRemaining 
-			@limit-reached="onLimitReached"
-			:limit="30"
-			/>
-	<div>
-	{{ progress }}
+					/>
+		</template>
+		<div>
+		</div>
+		{{ progress }}
 	</div>
 </template>
 
 <style scoped>
-header {
-  line-height: 1.5;
-}
-
-.logo {
-  display: block;
-  margin: 0 auto 2rem;
-}
-
-@media (min-width: 1024px) {
-  header {
-    display: flex;
-    place-items: center;
-    padding-right: calc(var(--section-gap) / 2);
-  }
-
-  .logo {
-    margin: 0 2rem 0 0;
-  }
-
-  header .wrapper {
-    display: flex;
-    place-items: flex-start;
-    flex-wrap: wrap;
-  }
+.questions {
+	display: grid;
 }
 </style>
