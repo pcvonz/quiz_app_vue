@@ -14,12 +14,12 @@ const currentTime = ref<number>(props.limit);
 
 	onMounted(() => {
 		setInterval(() => {
-		currentTime.value -= 1;
-		}, 1000);
+		currentTime.value -= .1;
+		}, 100);
 	});
 
 watchEffect(() => {
-	if (currentTime.value === 0) {
+	if (currentTime.value <= 0) {
 		emit('limitReached');
 	}
 });
@@ -28,41 +28,39 @@ const timerDisplay = computed(() => {
 		if ( currentTime.value < 0 ) {
 			return "Time over";
 		}
-		return currentTime.value;
+		return currentTime.value.toFixed(0);
 });
+
+const getTimerBarWidth = () => {
+	return (currentTime.value / props.limit)  * 100;
+}
 
 </script>
 
 <template>
-	<h1> {{ timerDisplay }} </h1>
+	<div class="timer-wrapper">
+		<div :style="`width: ${getTimerBarWidth()}%`" class="timer-bar"> </div>
+		<h1 class="timer-text"> {{ timerDisplay }} </h1>
+	</div>
 </template>
 
 <style scoped>
-header {
-  line-height: 1.5;
+.timer-wrapper {
+	position: relaive;
+	background-color: var(--color-background-soft);
 }
-
-.logo {
-  display: block;
-  margin: 0 auto 2rem;
+.timer-bar {
+	transition: all 1s;
+	background-color: var(--color-highlight);
+	height: 100%;
 }
+.timer-text {
+	position: absolute;
 
-@media (min-width: 1024px) {
-  header {
-    display: flex;
-    place-items: center;
-    padding-right: calc(var(--section-gap) / 2);
-  }
-
-  .logo {
-    margin: 0 2rem 0 0;
-  }
-
-  header .wrapper {
-    display: flex;
-    place-items: flex-start;
-    flex-wrap: wrap;
-  }
+	width: 100%;
+	text-align: center;
+	top: 0;
+	left: 0;
 }
 </style>
 
