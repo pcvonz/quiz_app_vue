@@ -17,8 +17,12 @@ jobs:
         node-version: 18
     - name: install yarn
       run: npm i -g yarn
-    - name: Install dependencies & build 
+    - name: Install dependencies
+      run: yarn 
+    - name: build 
       run: yarn && yarn build --base '/quiz_app_vue/'
+    - name: test
+      run: yarn test:unit
     - name: Upload Artifact
       uses: actions/upload-pages-artifact@v2
       with:
