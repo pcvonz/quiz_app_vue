@@ -55,7 +55,7 @@ const questions = [
 <template>
 	<Quiz
 			:questions="questions"
-			:maxNumberToRender="1"
+			:maxNumberToRender="4"
 			/>
 
 </template>

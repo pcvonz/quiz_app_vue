@@ -21,16 +21,8 @@ const questions = ref([...props.questions]);
 
 const answerQuestion = (questionNumber: number, answer: string) => {
 	questions.value[questionNumber].userAnswer = answer;
-	console.log(questions.value);
 }
 const limitReached = ref(false);
-
-const progress = computed(() => {
-	const totalQuestions = questions.value.length;
-	const answeredQuestions = questions.value.filter(question => question.userAnswer !== undefined).length;
-
-	return `${answeredQuestions} / ${totalQuestions}`
-});
 
 const isQuizFinished = computed(() => {
 	const totalQuestions = questions.value.length;
@@ -48,7 +40,6 @@ const score = computed(() => Object.values(questions.value).reduce((accum, value
 const onLimitReached = () => {
 	limitReached.value = true;
 }
-
 
 const getQuestionIndex = (index: number, page: number) => {
 	if (page === 0) {
@@ -87,24 +78,27 @@ const getMaxPage = () => {
 		</div>
 
 		<div class="question" v-else>
-			<template  v-for="index in maxNumberToRender">
-				<QuestionComponent
-						v-if="questions[getQuestionIndex(index, page)]"
-						@answer="(answer: string) => answerQuestion(index, answer)"
-						:userAnswer="questions[getQuestionIndex(index, page)].userAnswer"
-						:question-number="index"
-						:question="questions[getQuestionIndex(index, page)].question"
-						:possibleAnswers='questions[getQuestionIndex(index, page)].possibleAnswers'
-						:answer="questions[getQuestionIndex(index, page)].correctAnswer"
-					/>
-			</template>
+			<TransitionGroup name="quiz" tag="div">
+				<div v-for="index in maxNumberToRender"
+							:key="getQuestionIndex(index, page)"
+					>
+					<QuestionComponent
+							v-if="questions[getQuestionIndex(index, page)]"
+							@answer="(answer: string) => answerQuestion(getQuestionIndex(index, page), answer)"
+							:userAnswer="questions[getQuestionIndex(index, page)].userAnswer"
+							:question-number="index"
+							:question="questions[getQuestionIndex(index, page)].question"
+							:possibleAnswers='questions[getQuestionIndex(index, page)].possibleAnswers'
+							:answer="questions[getQuestionIndex(index, page)].correctAnswer"
+							/>
+				</div>
+			</TransitionGroup>
 		</div>
 
 		<PageButton 
 					class="pageButton"
 					:maxPage="getMaxPage()"
-					@prevPage="(pageNumber: number) => page = pageNumber" 
-					@nextPage="(pageNumber: number) => page = pageNumber" 
+					v-model="page"
 		/>
 	</div>
 </template>
@@ -127,11 +121,20 @@ const getMaxPage = () => {
 .questions {
 	height: 100%;
 	display: grid;
+	background: var(--color-background);
 	grid-template-rows: 60px 1fr 60px;
+	grid-template-columns: 1fr;
 	grid-template-areas: 
 		"time-remaining time-remaining time-remaining"
 		"question question question"
 		"page-button page-button page-button";
+}
+
+@media (min-width: 1024px) {
+	.questions {
+	grid-template-columns: 1fr;
+		border: 5px solid var(--color-background);
+	}
 }
 
 .question {
@@ -139,6 +142,7 @@ const getMaxPage = () => {
 	height: 100%;
 	padding: 1rem;
 	display: flex;
+	justify-content: center;
 }
 
 .timeRemaining {
@@ -150,5 +154,21 @@ const getMaxPage = () => {
 	padding: 1rem;
 	grid-area: page-button;
 }
+
+.quiz-move,
+.quiz-enter-active,
+.quiz-leave-active {
+  transition: all .5s ease;
+	top: 0;
+}
+.quiz-enter-from,
+.quiz-leave-to {
+  opacity: 0;
+  transform: translateX(300px);
+}
+.quiz-leave-active {
+  position: absolute;
+}
+
 </style>
 

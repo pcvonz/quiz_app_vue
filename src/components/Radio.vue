@@ -1,16 +1,12 @@
 <script setup lang="ts">
-	import { ref } from "vue";
-
-	const value = ref<boolean>(false);
-
-const onClick = () => {
-	value.value = !value.value;
-}
+defineProps<{
+	modelValue: boolean
+}>()
 
 </script>
 
 <template>
-	<div :class="value ? 'selected radio' : 'not-selected radio'" @click="onClick" class="radio">
+	<div :class="modelValue ? 'selected radio' : 'not-selected radio'" class="radio">
 	</div>
 </template>
 
@@ -19,16 +15,21 @@ const onClick = () => {
 	width: 20px;
 	height: 20px;
 	border-radius: 30%;
-		border: 1px solid gray;
+	border: 1px solid white;
+	transition: all 0.4s;
 }
-	.selected {
-		background: linear-gradient(blue, 10%, pink);
-		transition: all 1s;
-	}
 
-	.not-selected {
-		background: linear-gradient(blue, 100%, pink);
-		transition: all 1s;
-	}
+.radio:hover {
+	cursor: pointer;
+	background:  var(--color-highlight);
+}
+
+.selected {
+	background:  var(--color-highlight);
+}
+
+.not-selected {
+	background: var(v-background-soft);
+}
 </style>
 

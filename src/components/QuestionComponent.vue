@@ -20,15 +20,17 @@
 	<div>
 		<div class="question">
 			<h1 data-testid="question-title" class="question-title"> {{ question }} 
-				<div class="correct-indicator" v-if="userAnswer">
+				<div data-testid="correct-indicator" class="correct-indicator" v-if="userAnswer">
 					{{ userAnswer !== answer ? "❌" : "✅︎" }}
 				</div>
 			</h1>
 			<div class="option" v-for="answer in possibleAnswers">
 				{{ answer }}
-				<Radio />
-				<!--label :for="answer"> {{ answer }} </label>
-				<input type="radio" @click="emit('answer', answer)"  :name="answer" / --> 
+				<Radio 
+						:data-testid="`answer-${answer}`"
+						@click="emit('answer', answer)"
+						:model-value="userAnswer === answer"
+				/>
 			</div>
 		</div>
 	</div>

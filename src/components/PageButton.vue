@@ -1,29 +1,25 @@
 <script setup lang="ts">
 import { ref } from "vue";
 
-const page = ref(0);
-
 const props = defineProps<{
-	maxPage: number
+	maxPage: number,
+	'modelValue': number
 }>();
 
 const emit = defineEmits<{
-	(e: 'nextPage', pageNumber: number): number,
-	(e: 'prevPage', pageNumber: number): number
+	(e: 'update:model-value', pageNumber: number): number,
 }>();
 
 const nextPage = () => {
-	if (page.value >= props.maxPage) {
+	if (props.modelValue >= props.maxPage) {
 		return;
 	}
-	page.value += 1;
-	emit('nextPage', page.value);
+	emit('update:model-value', props.modelValue + 1);
 }
 
 const prevPage = () => {
-	if (page.value > 0) {
-		page.value -= 1;
-		emit('nextPage', page.value);
+	if (props.modelValue > 0) {
+		emit('update:model-value', props.modelValue - 1);
 	}
 }
 
@@ -36,7 +32,7 @@ const prevPage = () => {
 		>
 			Previous
 		</button>
-		<span class="progress"> {{ page }} / {{ maxPage }} </span>
+		<span class="progress"> {{ modelValue }} / {{ maxPage }} </span>
 		<button data-testid="next-button" @click="nextPage">
 			Next
 		</button>

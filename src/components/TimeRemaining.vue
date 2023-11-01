@@ -46,7 +46,7 @@ const getTimerBarWidth = () => {
 
 <style scoped>
 .timer-wrapper {
-	position: relaive;
+	position: relative;
 	background-color: var(--color-background-soft);
 }
 .timer-bar {

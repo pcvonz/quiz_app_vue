@@ -57,3 +57,32 @@ describe("Page Button", () => {
 		expect(progress.text()).toBe(expectedText);
 	});
 });
+
+describe("QuestionComponent", () => {
+	test('Shows correct answer when correct answer click', async () => {
+		const wrapper = mount(Quiz, {
+			props: {
+				questions: generateMockQuestions(8) ,
+				maxNumberToRender: 1 
+			}
+		});
+		const correctAnswer = wrapper.find("[data-testid=answer-c]");
+		await	correctAnswer.trigger('click');
+		const indicator = wrapper.find("[data-testid=correct-indicator]");
+
+		expect(indicator.text()).toBe("✅︎");
+	});
+	test('Shows incorrect answer when incorrect answer click', async () => {
+		const wrapper = mount(Quiz, {
+			props: {
+				questions: generateMockQuestions(8) ,
+				maxNumberToRender: 1 
+			}
+		});
+		const correctAnswer = wrapper.find("[data-testid=answer-a]");
+		await	correctAnswer.trigger('click');
+		const indicator = wrapper.find("[data-testid=correct-indicator]");
+
+		expect(indicator.text()).toBe("❌");
+	});
+});
