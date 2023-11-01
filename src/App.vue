@@ -2,51 +2,39 @@
 import Quiz from "./components/Quiz.vue";
 const questions = [
 	 {
-		possibleAnswers: ["a", "b", "c"],
-		correctAnswer: "c",
-		question: "Which one is 0?",
+		possibleAnswers: ["Crooked Rain Crooked Rain", "Slanted & Enchanted", "Brighten the corners"],
+		correctAnswer: "Slanted & Enchanted",
+		question: "What was Pavement's first album?",
 		userAnswer: undefined
 	},
 	 {
-		possibleAnswers: ["a", "b", "c"],
-		correctAnswer: "c",
-		question: "Which one is 1?",
+		possibleAnswers: ["Pocket Calculator", "Computer World", "My Computer"],
+		correctAnswer: "My Computer",
+		question: "Which is not a song by Kraftwerk?",
 		userAnswer: undefined
 	},
 	 {
-		possibleAnswers: ["a", "b", "c"],
-		correctAnswer: "c",
-		question: "Which one is 2?",
+		possibleAnswers: ["Stephen Malkmus", "Bob", "Steve West"],
+		correctAnswer: "Stephen Malkmus",
+		question: "Who is the lead singer of Pavement?",
 		userAnswer: undefined
 	},
 	 {
-		possibleAnswers: ["a", "b", "c"],
-		correctAnswer: "c",
-		question: "Which one is 3?",
-		userAnswer: undefined
-	}, 
-	 {
-		possibleAnswers: ["a", "b", "c"],
-		correctAnswer: "c",
-		question: "Which one is 4?",
+		possibleAnswers: ["Pixies", "The Pixies", "Fight Club"],
+		correctAnswer: "Pixies",
+		question: "Who wrote the song 'Where is My Mind'?",
 		userAnswer: undefined
 	},
 	 {
-		possibleAnswers: ["a", "b", "c"],
-		correctAnswer: "c",
-		question: "Which one is 5?",
+		possibleAnswers: ["Frank Black", "Stephen Malkmus", "Falk Grieffenhagen"],
+		correctAnswer: "Frank Black",
+		question: "Who is the leader singer of Pixies?",
 		userAnswer: undefined
 	},
 	 {
-		possibleAnswers: ["a", "b", "c"],
-		correctAnswer: "c",
-		question: "Which one is 6?",
-		userAnswer: undefined
-	},
-	 {
-		possibleAnswers: ["a", "b", "c"],
-		correctAnswer: "c",
-		question: "Which one is 7?",
+		possibleAnswers: ["Power Plant", "Windmill", "Calculator", "Craft Work"],
+		correctAnswer: "Power Plant",
+		question: "What does Kraftwerk mean?",
 		userAnswer: undefined
 	}
 	]

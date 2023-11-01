@@ -1,12 +1,13 @@
 <script setup lang="ts">
-	import Radio from "./Radio.vue";
+	import { computed } from "vue";
+import Radio from "./Radio.vue";
 
 	const emit = defineEmits<{
 		(e: 'answer', answer: string): void
 	}>();
 
 
-	defineProps<{
+	const props = defineProps<{
 		userAnswer: string | undefined,
 		questionNumber: number,
 		question: string,
@@ -14,16 +15,23 @@
 		answer: string 
 	}>();
 
+const userAnswerClass = computed(() => {
+	if (!props.userAnswer) {
+		return;
+	}
+	return props.userAnswer === props.answer ? 'correct' : 'incorrect';
+});
+
 </script>
 
 <template>
 	<div>
-		<div class="question">
-			<h1 data-testid="question-title" class="question-title"> {{ question }} 
+		<div :class="`question ${userAnswerClass}`">
 				<div data-testid="correct-indicator" class="correct-indicator" v-if="userAnswer">
 					{{ userAnswer !== answer ? "❌" : "✅︎" }}
 				</div>
-			</h1>
+
+			<h1 data-testid="question-title" class="question-title"> {{ question }} </h1>
 			<div class="option" v-for="answer in possibleAnswers">
 				{{ answer }}
 				<Radio 
@@ -37,12 +45,22 @@
 </template>
 
 <style scoped>
-.question-title {
+.question {
 	position: relative;
+	background-color: var(--color-background-soft);
+	margin-bottom: 1rem;
+	padding: 1rem;
+	border-radius: 1%;
+	max-width: 20rem;
+	transition: all 0.2s;
 }
 
-.question {
-	max-width: 20rem;
+.correct {
+	background-color: var(--color-correct);
+}
+
+.incorrect {
+	background-color: var(--color-incorrect);
 }
 
 .option div {
@@ -51,11 +69,12 @@
 
 .option {
 	display: flex;
+	align-items: center;
 	justify-content: end;
 }
 
 .correct-indicator {
-	width: 0;
+	width: 1.3rem;
 	position: absolute;
 	right: 0;
 	top: 0;

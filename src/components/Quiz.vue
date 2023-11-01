@@ -68,16 +68,18 @@ const getMaxPage = () => {
 			 class="timeRemaining"
 			 v-if="!isQuizFinished"
 					@limit-reached="onLimitReached()"
-					:limit="30"
+					:limit="60"
 					/>
 
-		<div class="quiz-over-wrapper" v-if="isQuizFinished">
-			<div class="quiz-over">
-				Your score is {{ score }} out of {{ questions.length }}
+		<Transition name="slide-fade">
+			<div class="quiz-over-wrapper" v-if="isQuizFinished">
+				<div class="quiz-over">
+					Your score is {{ score }} out of {{ questions.length }}
+				</div>
 			</div>
-		</div>
+		</Transition>
 
-		<div class="question" v-else>
+		<div class="question" v-if="!isQuizFinished">
 			<TransitionGroup name="quiz" tag="div">
 				<div v-for="index in maxNumberToRender"
 							:key="getQuestionIndex(index, page)"
@@ -122,7 +124,7 @@ const getMaxPage = () => {
 	height: 100%;
 	display: grid;
 	background: var(--color-background);
-	grid-template-rows: 60px 1fr 60px;
+	grid-template-rows: 37px 1fr 60px;
 	grid-template-columns: 1fr;
 	grid-template-areas: 
 		"time-remaining time-remaining time-remaining"
@@ -170,5 +172,18 @@ const getMaxPage = () => {
   position: absolute;
 }
 
+.slide-fade-enter-active {
+  transition: all 0.5s cubic-bezier(0, 0.0, 0.8, 1);
+}
+
+.slide-fade-leave-active {
+  transition: all 0.8s cubic-bezier(1, 0.5, 0.8, 1);
+}
+
+.slide-fade-enter-from,
+.slide-fade-leave-to {
+  transform: translateX(20px);
+  opacity: 0;
+}
 </style>
 

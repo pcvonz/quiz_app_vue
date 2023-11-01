@@ -48,6 +48,8 @@
     --color-heading: var(--vt-c-text-dark-1);
     --color-text: var(--vt-c-text-dark-2);
 		--color-highlight: hsla(160, 100%, 37%, 1);
+		--color-correct: hsl(159.7, 100%, 12.2%);
+		--color-incorrect: #6f0606; 
   }
 }
 
@@ -84,4 +86,10 @@ body {
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+h1 {
+	font-size: 1.2rem;
+	font-weight: 600;
+
 }
